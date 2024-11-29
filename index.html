@@ -1,106 +1,231 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Inclusive AI App</title>
     <style>
         body {
-            font-family: Arial, sans-serif;
+            font-family: 'Roboto', sans-serif;
             margin: 0;
             padding: 0;
-            background-color: #f8f9fa;
-            color: #333;
+            background: #1a1a2e;
+            color: #e6e6e6;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
         }
+
         header {
-            background-color: #007bff;
-            color: white;
-            padding: 20px;
+            background: linear-gradient(to right, #0f2027, #203a43, #2c5364);
+            color: #00d4ff;
+            padding: 40px 20px;
             text-align: center;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+            text-transform: uppercase;
+            letter-spacing: 2px;
         }
+
+        header h1 {
+            font-size: 2.5rem;
+        }
+
         .container {
             max-width: 1200px;
             margin: auto;
             padding: 20px;
+            flex-grow: 1;
         }
+
         section {
-            margin: 20px 0;
+            margin: 30px 0;
             padding: 20px;
-            background: #fff;
+            background: #21253a;
             border-radius: 10px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
         }
+
         section h2 {
-            color: #007bff;
+            color: #00ffab;
+            font-size: 2rem;
+            text-align: center;
         }
+
         .feature {
-            margin: 10px 0;
+            margin: 15px 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
         }
-        .feature input, .feature button, .feature textarea {
+
+        .feature input,
+        .feature button,
+        .feature textarea {
             margin: 10px 0;
-            padding: 10px;
+            padding: 15px;
             border-radius: 5px;
-            border: 1px solid #007bff;
+            border: 1px solid #00d4ff;
+            background: #2d3448;
+            color: #e6e6e6;
+            width: 100%;
+            max-width: 500px;
         }
+
         button {
-            background-color: #007bff;
-            color: white;
+            background-color: #00d4ff;
+            color: #1a1a2e;
             cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: bold;
+            font-size: 1.2rem;
+            padding: 15px;
         }
+
+        button:hover {
+            background-color: #00ffab;
+            transform: scale(1.05);
+        }
+
+        .main-buttons {
+            display: flex;
+            justify-content: space-around;
+            margin: 50px 0;
+        }
+
+        .main-buttons button {
+            font-size: 1.5rem;
+            padding: 20px;
+            background-color: #00d4ff;
+            border: none;
+            width: 30%;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+            transition: all 0.3s ease;
+        }
+
+        .main-buttons button:hover {
+            background-color: #00ffab;
+            transform: scale(1.1);
+        }
+
         footer {
             text-align: center;
-            padding: 10px;
-            background: #007bff;
-            color: white;
+            padding: 15px;
+            background: #0f2027;
+            color: #00d4ff;
+            font-size: 0.9rem;
         }
+
+        .instructions {
+            font-style: italic;
+            color: #888;
+            margin-top: 5px;
+        }
+
     </style>
 </head>
+
 <body>
     <header>
         <h1>Vita AI</h1>
-        <p>Enhancing lives with AI-powered accessibility solutions</p>
+        <p>Empowering Accessibility Through Technology</p>
     </header>
 
     <div class="container">
-        <!-- Blind Users Section -->
-        <section>
-            <h2>For Visually Impaired Users</h2>
-            <p>Upload an image to hear its description.</p>
-            <div class="feature">
-                <input type="file" id="imageUpload" accept="image/*">
-                <button onclick="analyzeImage()">Analyze Image</button>
-                <button onclick="stopAudio()">Stop Audio</button>
-            </div>
-            <p id="imageResponse"></p>
-        </section>
+        <!-- Main Buttons for Navigation -->
+        <div class="main-buttons">
+            <button onclick="navigateTo('blind')">For Blind Users</button>
+            <button onclick="navigateTo('mute')">For Mute Users</button>
+            <button onclick="navigateTo('deaf')">For Deaf Users</button>
+        </div>
 
-        <!-- Deaf Users Section -->
-        <section>
-            <h2>For Hearing Impaired Users</h2>
-            <p>Convert spoken language into text in real-time.</p>
+        <!-- Blind Users Section -->
+        <section id="blind" style="display:none;">
+            <h2>For Blind Users</h2>
+            <p>Select a function to assist you.</p>
             <div class="feature">
-                <button onclick="startSpeechToText()">Start Speech-to-Text</button>
-                <p id="speechOutput" style="background: #f1f1f1; padding: 10px;"></p>
+                <button onclick="showImageRecognition()" aria-label="Image Recognition">Image Recognition</button>
+                <button onclick="showTextRecognition()" aria-label="Text Recognition">Text Recognition</button>
+            </div>
+
+            <!-- Image Recognition Section -->
+            <div id="imageRecognitionSection" style="display:none;">
+                <h3>Image Recognition</h3>
+                <p>Upload an image to hear its description.</p>
+                <div class="feature">
+                    <input type="file" id="imageUpload" accept="image/*" aria-label="Upload an image">
+                    <button onclick="analyzeImage()" aria-label="Analyze image">Analyze Image</button>
+                    <button onclick="stopAudio()" aria-label="Stop Audio">Stop Audio</button>
+                    <p class="instructions">Upload a clear image for the best results.</p>
+                </div>
+                <p id="imageResponse"></p>
+            </div>
+
+            <!-- Text Recognition Section -->
+            <div id="textRecognitionSection" style="display:none;">
+                <h3>Text Recognition</h3>
+                <p>Extract text from an image.</p>
+                <div class="feature">
+                    <input type="file" id="textImageUpload" accept="image/*" aria-label="Upload an image with text">
+                    <button onclick="extractTextFromImage()" aria-label="Extract Text">Extract Text</button>
+                    <p class="instructions">Upload an image with visible text for extraction.</p>
+                </div>
+                <p id="textResponse"></p>
             </div>
         </section>
 
         <!-- Mute Users Section -->
-        <section>
+        <section id="mute" style="display:none;">
             <h2>For Mute Users</h2>
             <p>Type your message, and let the app speak it for you.</p>
             <div class="feature">
-                <textarea id="textInput" placeholder="Type your message here..."></textarea>
-                <button onclick="convertTextToSpeech()">Speak Message</button>
+                <textarea id="textInput" placeholder="Type your message here..." aria-label="Message input"></textarea>
+                <button onclick="convertTextToSpeech()" aria-label="Speak message">Speak Message</button>
+            </div>
+        </section>
+
+        <!-- Deaf Users Section -->
+        <section id="deaf" style="display:none;">
+            <h2>For Deaf Users</h2>
+            <p>Convert spoken language into text in real-time.</p>
+            <div class="feature">
+                <button onclick="startSpeechToText()" aria-label="Start speech-to-text">Start Speech-to-Text</button>
+                <p id="speechOutput"></p>
             </div>
         </section>
     </div>
 
     <footer>
-        <p>&copy; 2024 Inclusive AI App. All rights reserved.</p>
+        <p>&copy; 2024 Vita AI. Designed for accessibility and innovation.</p>
+        <p>Created with dedication by <strong>Pratik Rajendra Nagargoje</strong>, <strong>Kalyani Balaraju Pucha</strong>, and <strong>Atharva Dattatray Damale</strong>.</p>
     </footer>
 
     <script>
-        // Analyze Image for Blind Users
+        // Function to navigate to different sections
+        function navigateTo(section) {
+            // Hide all sections
+            document.getElementById('blind').style.display = 'none';
+            document.getElementById('mute').style.display = 'none';
+            document.getElementById('deaf').style.display = 'none';
+
+            // Show the selected section
+            document.getElementById(section).style.display = 'block';
+        }
+
+        // Show Image Recognition section
+        function showImageRecognition() {
+            document.getElementById('imageRecognitionSection').style.display = 'block';
+            document.getElementById('textRecognitionSection').style.display = 'none';
+        }
+
+        // Show Text Recognition section
+        function showTextRecognition() {
+            document.getElementById('textRecognitionSection').style.display = 'block';
+            document.getElementById('imageRecognitionSection').style.display = 'none';
+        }
+
+        // Analyze Image for Blind Users using Google Cloud Vision API
         async function analyzeImage() {
             const fileInput = document.getElementById("imageUpload");
             const responseElement = document.getElementById("imageResponse");
@@ -112,59 +237,116 @@
             }
 
             const file = fileInput.files[0];
-            const formData = new FormData();
-            formData.append("image", file);
+            const reader = new FileReader();
 
-            const apiKey = "acc_d879e36b37fcb3c"; // API Key provided
-            const apiSecret = "973a8df9d86e39e04c46e8da27764e01"; // API Secret provided
-            const apiUrl = "https://api.imagga.com/v2/tags"; // Imagga API URL for image tags
+            reader.onload = async function () {
+                const base64Image = reader.result.split(",")[1];
 
-            responseElement.textContent = "Processing image...";
-            speakText("Processing image...");
+                const requestBody = {
+                    requests: [
+                        {
+                            image: { content: base64Image },
+                            features: [{ type: "LABEL_DETECTION", maxResults: 10 }]
+                        }
+                    ]
+                };
 
-            try {
-                const response = await fetch(apiUrl, {
-                    method: "POST",
-                    headers: {
-                        "Authorization": `Basic ${btoa(apiKey + ":" + apiSecret)}`
-                    },
-                    body: formData
-                });
+                const apiKey = "AIzaSyCnmIyLpD9gb5NCZdGwbwSl0CF_v13eEsg"; // Your API Key here
+                const apiUrl = `https://vision.googleapis.com/v1/images:annotate?key=${apiKey}`;
 
-                // Check if the response is successful
-                if (!response.ok) {
-                    throw new Error("Failed to fetch image analysis. HTTP Status: " + response.status);
-                }
+                responseElement.textContent = "Processing image...";
+                speakText("Processing image...");
 
-                const data = await response.json();
+                try {
+                    const response = await fetch(apiUrl, {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json"
+                        },
+                        body: JSON.stringify(requestBody)
+                    });
 
-                // Log the response data for debugging
-                console.log("API Response:", data);
-
-                if (data.result && data.result.tags && data.result.tags.length > 0) {
-                    // Define the objects you are interested in (e.g., "phone", "wall", "window", "refrigerator")
-                    const objectsOfInterest = ["phone", "wall", "window", "refrigerator", "chair", "table", "door", "tv", "computer", "lamp"];
-
-                    // Filter the tags and only keep the relevant ones
-                    const relevantTags = data.result.tags.filter(tag => objectsOfInterest.includes(tag.tag.en.toLowerCase()));
-
-                    if (relevantTags.length > 0) {
-                        const description = relevantTags.map(tag => tag.tag.en).join(", ");
-                        responseElement.textContent = description;
-                        speakText("Image contains: " + description);
-                    } else {
-                        responseElement.textContent = "No recognizable objects found.";
-                        speakText("No recognizable objects found.");
+                    if (!response.ok) {
+                        throw new Error("Failed to analyze image.");
                     }
-                } else {
-                    responseElement.textContent = "No description available.";
-                    speakText("No description available.");
+
+                    const data = await response.json();
+                    if (data.responses[0].labelAnnotations && data.responses[0].labelAnnotations.length > 0) {
+                        const labels = data.responses[0].labelAnnotations.map(label => label.description).join(', ');
+                        responseElement.textContent = `Image contains: ${labels}`;
+                        speakText(`The image contains: ${labels}`);
+                    } else {
+                        throw new Error("No recognizable objects found.");
+                    }
+                } catch (error) {
+                    responseElement.textContent = error.message;
+                    speakText(error.message);
                 }
-            } catch (error) {
-                console.error("Error during image processing:", error);  // Log the error details
-                responseElement.textContent = "Error processing image: " + error.message;
-                speakText("Error processing image.");
+            };
+
+            reader.readAsDataURL(file);
+        }
+
+        // Extract Text from Image for Blind Users
+        async function extractTextFromImage() {
+            const fileInput = document.getElementById("textImageUpload");
+            const responseElement = document.getElementById("textResponse");
+
+            if (fileInput.files.length === 0) {
+                responseElement.textContent = "Please upload an image with text.";
+                speakText("Please upload an image with text.");
+                return;
             }
+
+            const file = fileInput.files[0];
+            const reader = new FileReader();
+
+            reader.onload = async function () {
+                const base64Image = reader.result.split(",")[1];
+
+                const requestBody = {
+                    requests: [
+                        {
+                            image: { content: base64Image },
+                            features: [{ type: "TEXT_DETECTION", maxResults: 10 }]
+                        }
+                    ]
+                };
+
+                const apiKey = "AIzaSyCnmIyLpD9gb5NCZdGwbwSl0CF_v13eEsg"; // Your API Key here
+                const apiUrl = `https://vision.googleapis.com/v1/images:annotate?key=${apiKey}`;
+
+                responseElement.textContent = "Processing image...";
+                speakText("Processing image...");
+
+                try {
+                    const response = await fetch(apiUrl, {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json"
+                        },
+                        body: JSON.stringify(requestBody)
+                    });
+
+                    if (!response.ok) {
+                        throw new Error("Failed to fetch text detection.");
+                    }
+
+                    const data = await response.json();
+                    if (data.responses[0].textAnnotations && data.responses[0].textAnnotations.length > 0) {
+                        const extractedText = data.responses[0].textAnnotations[0].description;
+                        responseElement.textContent = `Extracted Text: ${extractedText}`;
+                        speakText(`Extracted Text: ${extractedText}`);
+                    } else {
+                        throw new Error("No text detected in the image.");
+                    }
+                } catch (error) {
+                    responseElement.textContent = error.message;
+                    speakText(error.message);
+                }
+            };
+
+            reader.readAsDataURL(file);
         }
 
         // Stop Audio for Blind Users
@@ -184,8 +366,8 @@
                 outputElement.textContent = event.results[0][0].transcript;
             };
 
-            recognition.onerror = () => {
-                outputElement.textContent = "Error recognizing speech.";
+            recognition.onerror = (event) => {
+                outputElement.textContent = `Speech recognition error: ${event.error}`;
             };
         }
 
@@ -209,13 +391,16 @@
             synth.speak(utterance);
         }
     </script>
-<script src="https://www.gstatic.com/dialogflow-console/fast/messenger/bootstrap.js?v=1"></script>
+
+
+    <script src="https://www.gstatic.com/dialogflow-console/fast/messenger/bootstrap.js?v=1"></script>
 <df-messenger
   chat-icon="https:&#x2F;&#x2F;image.similarpng.com&#x2F;very-thumbnail&#x2F;2021&#x2F;05&#x2F;Colorful-circle-logo-design-illustration-on-transparent-background-PNG.png"
-  intent="WELCOME"
   chat-title="VitalAI"
   agent-id="66defd9c-f98f-4d8d-999b-c167890813f2"
   language-code="en"
 ></df-messenger>
+</scipt>
 </body>
+
 </html>
