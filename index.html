@@ -251,7 +251,7 @@
                     ]
                 };
 
-                const apiKey = "AIzaSyCnmIyLpD9gb5NCZdGwbwSl0CF_v13eEsg"; // Your API Key here
+                const apiKey = "AIzaSyCnmIyLpD9gb5NCZdGwbwSl0CF_v13eEsg"; 
                 const apiUrl = `https://vision.googleapis.com/v1/images:annotate?key=${apiKey}`;
 
                 responseElement.textContent = "Processing image...";
@@ -287,7 +287,7 @@
             reader.readAsDataURL(file);
         }
 
-        // Extract Text from Image for Blind Users
+        
         async function extractTextFromImage() {
             const fileInput = document.getElementById("textImageUpload");
             const responseElement = document.getElementById("textResponse");
@@ -313,7 +313,7 @@
                     ]
                 };
 
-                const apiKey = "AIzaSyCnmIyLpD9gb5NCZdGwbwSl0CF_v13eEsg"; // Your API Key here
+                const apiKey = "AIzaSyCnmIyLpD9gb5NCZdGwbwSl0CF_v13eEsg"; 
                 const apiUrl = `https://vision.googleapis.com/v1/images:annotate?key=${apiKey}`;
 
                 responseElement.textContent = "Processing image...";
@@ -349,12 +349,12 @@
             reader.readAsDataURL(file);
         }
 
-        // Stop Audio for Blind Users
+        
         function stopAudio() {
             window.speechSynthesis.cancel();
         }
 
-        // Start Speech-to-Text for Deaf Users
+        
         function startSpeechToText() {
             const outputElement = document.getElementById("speechOutput");
             const recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
@@ -371,7 +371,7 @@
             };
         }
 
-        // Text-to-Speech for Mute Users
+       
         function convertTextToSpeech() {
             const text = document.getElementById("textInput").value.trim();
             if (!text) {
@@ -384,7 +384,7 @@
             synth.speak(utterance);
         }
 
-        // Speak Text for Blind Users
+        
         function speakText(text) {
             const synth = window.speechSynthesis;
             const utterance = new SpeechSynthesisUtterance(text);
